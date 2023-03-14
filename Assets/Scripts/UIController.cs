@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
@@ -11,7 +7,7 @@ public class UIController : MonoBehaviour
 
     public void OnClick(string action)
     {
-        
+
     }
 
     public void OnHoverEnter(GameObject self)
@@ -45,6 +41,6 @@ public class UIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
