@@ -220,7 +220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfac5f3b8946cd46803ab1372f78eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charArray: 37002d0037003d003000
   numMaterials:
   - {fileID: 2100000, guid: d157128cd54132641a934853d52a5d6d, type: 2}
   - {fileID: 2100000, guid: e82b27d3ef5d0b94e864d8b5cf3c9d9e, type: 2}
@@ -239,7 +238,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c6dc302c404e53e4390705019a0e61ef, type: 2}
   - {fileID: 2100000, guid: d157128cd54132641a934853d52a5d6d, type: 2}
   Sphere: {fileID: 5025038094927780965, guid: 1301f414155d8e34999c8fc8ae7448cb, type: 3}
-  Spheres: []
+  defaultMaterial: {fileID: 2100000, guid: 242d6491c151fe64bb50f6f057dadd25, type: 2}
   min_x: -7
   max_x: 7
 --- !u!1 &300667563
@@ -428,14 +427,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084255687}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 5
+      - m_Target: {fileID: 161398817}
+        m_TargetAssemblyTypeName: EquationCreator, Assembly-CSharp
+        m_MethodName: changeActionSphere
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: +
           m_BoolArgument: 0
@@ -625,7 +624,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 412091959}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 161398817}
+        m_TargetAssemblyTypeName: EquationCreator, Assembly-CSharp
+        m_MethodName: checkAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &412091959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,16 +942,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084255687}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 5
+      - m_Target: {fileID: 161398817}
+        m_TargetAssemblyTypeName: EquationCreator, Assembly-CSharp
+        m_MethodName: changeActionSphere
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: +
+          m_StringArgument: 0
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &932355770
@@ -1034,6 +1045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd2facce3e500946a1b5749a483c04d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Equations: {fileID: 161398817}
 --- !u!222 &1084255688
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1362,14 +1374,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084255687}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 5
+      - m_Target: {fileID: 161398817}
+        m_TargetAssemblyTypeName: EquationCreator, Assembly-CSharp
+        m_MethodName: changeActionSphere
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: +
           m_BoolArgument: 0
@@ -1562,14 +1574,14 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1084255687}
-        m_TargetAssemblyTypeName: UIController, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 5
+      - m_Target: {fileID: 161398817}
+        m_TargetAssemblyTypeName: EquationCreator, Assembly-CSharp
+        m_MethodName: changeActionSphere
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: +
           m_BoolArgument: 0

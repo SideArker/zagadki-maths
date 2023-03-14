@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,22 +16,41 @@ public class EquationCreator : MonoBehaviour
 
     string equation = "";
     string rightSide = "";
+    char[] charArray;
 
-    public char[] charArray;
+    [Header("Lists")]
     [SerializeField] Material[] numMaterials;
     [SerializeField] Material[] actionMaterials;
-    [SerializeField] GameObject Sphere;
 
     [Header("Sphere creation")]
+    [SerializeField] GameObject Sphere;
 
-    public List<GameObject> Spheres;
+    List<GameObject> Spheres = new List<GameObject>();
+    List<GameObject> actionSpheres = new List<GameObject>();
+    GameObject sphereToReplace;
+    int actionToFind;
+    int currentAction;
+    [SerializeField] Material defaultMaterial;
 
     public float min_x = -8.9f;
     public float max_x = 8.9f;
 
-    public void changeActionSphere()
+    public void checkAction()
     {
-
+        if (actionToFind == currentAction)
+        {
+            Debug.Log("Correct action selected si");
+        }
+        else
+        {
+            Debug.Log("Wrong action");
+        }
+    }
+    
+    public void changeActionSphere(int action) // goes by indexes of equationChars
+    {
+        currentAction = action;
+        sphereToReplace.GetComponent<MeshRenderer>().material = actionMaterials[action];
     }
 
     // Destroys previously made spheres
@@ -41,6 +61,8 @@ public class EquationCreator : MonoBehaviour
             Destroy(Sphere);
         }
         Spheres.Clear();
+        actionSpheres.Clear();
+
     }
 
     // Create and assign materials to spheres
@@ -54,6 +76,7 @@ public class EquationCreator : MonoBehaviour
         {
             // Create spheres
             GameObject sphereClone = Instantiate(Sphere);
+
             float x = min_x + ((max_x - min_x) / (charArray.Length - 1) * i);
             sphereClone.transform.position = new Vector3(x, 0, 0);
 
@@ -65,17 +88,33 @@ public class EquationCreator : MonoBehaviour
                 int currentNum = Convert.ToInt32(charArray[i].ToString());
 
                 sphereMesh.material = numMaterials[currentNum];
+
             }
+            else
+            {
+                actionSpheres.Add(sphereClone);
+                sphereMesh.material = actionMaterials[equationChars.IndexOf(charArray[i].ToString())];
+            }
+
+            Spheres.Add(sphereClone);
             
         }
+
+        sphereToReplace = actionSpheres[UnityEngine.Random.Range(0, actionSpheres.Count)];
+
+        sphereToReplace.GetComponent<MeshRenderer>().material = defaultMaterial;
+
+        string action = charArray[Spheres.IndexOf(sphereToReplace)].ToString();
+        
+        actionToFind = equationChars.IndexOf(action);
     }
 
 
     // Generates the equation
-    public void GenerateEquation()
+    [Button] public void GenerateEquation()
     {
-        int randomCharIfMinus = UnityEngine.Random.Range(0, equationChars.Count - 2);
-        int randomCharIfPlus = UnityEngine.Random.Range(0, equationChars.Count);
+        int randomCharIfMinus = UnityEngine.Random.Range(0, equationChars.Count - 3);
+        int randomCharIfPlus = UnityEngine.Random.Range(0, equationChars.Count - 1);
         int randomFirstNumber = UnityEngine.Random.Range(1, 10);
         int randomSecondNumber = UnityEngine.Random.Range(1, 10);
 
@@ -106,10 +145,19 @@ public class EquationCreator : MonoBehaviour
 
         rightSide = w;
 
-        equation += "=" + rightSide;
+        if(UnityEngine.Random.Range(1, 3) == 1)
+        {
+            equation = equation.Insert(0, rightSide + "=");
 
-        charArray = equation.ToCharArray();
+            charArray = equation.ToCharArray();
+        }
+        else
+        {
 
+            equation += "=" + rightSide;
+
+            charArray = equation.ToCharArray();
+        }
         CreateSpheres();
     }
 

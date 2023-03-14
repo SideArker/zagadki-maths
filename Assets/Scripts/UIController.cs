@@ -3,12 +3,8 @@ using UnityEngine;
 public class UIController : MonoBehaviour
 {
 
-    // Variables
+    [SerializeField] EquationCreator Equations;
 
-    public void OnClick(string action)
-    {
-
-    }
 
     public void OnHoverEnter(GameObject self)
     {
