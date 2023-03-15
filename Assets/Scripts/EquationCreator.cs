@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class EquationCreator : MonoBehaviour
 {
     [Header("Main")]
+    [SerializeField] GameController gc;
+    [SerializeField] UIController ui;
     static List<string> equationChars = new List<string> { "+", "*", "-", "/", "=" };
 
     string firstNumber = "";
     string eqChar = "";
     string secondNumber = "";
 
-    string equation = "";
+    public string equation = "";
     string rightSide = "";
     char[] charArray;
 
@@ -35,15 +38,27 @@ public class EquationCreator : MonoBehaviour
     public float min_x = -8.9f;
     public float max_x = 8.9f;
 
-    public void checkAction()
+    void checkAction()
     {
         if (actionToFind == currentAction)
         {
+            gc.score += 50;
             Debug.Log("Correct action selected si");
+            GenerateEquation();
+            ui.updateText(1, gc.score);
         }
         else
         {
+            if(gc.score > 50) gc.score -= 50;
             Debug.Log("Wrong action");
+            GenerateEquation();
+            ui.updateText(0, gc.score);
+        }
+
+        if (gc.score == 600)
+        {
+            Debug.Log("Win Game");
+            gc.regenLevel();
         }
     }
     
@@ -51,6 +66,7 @@ public class EquationCreator : MonoBehaviour
     {
         currentAction = action;
         sphereToReplace.GetComponent<MeshRenderer>().material = actionMaterials[action];
+        checkAction();
     }
 
     // Destroys previously made spheres
@@ -159,10 +175,5 @@ public class EquationCreator : MonoBehaviour
             charArray = equation.ToCharArray();
         }
         CreateSpheres();
-    }
-
-    private void Start()
-    {
-        GenerateEquation();
     }
 }

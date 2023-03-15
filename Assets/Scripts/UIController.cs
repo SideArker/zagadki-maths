@@ -1,11 +1,39 @@
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
 
     [SerializeField] EquationCreator Equations;
+    [SerializeField] TMP_Text Score;
 
+    static float lerpDuration = 0.2f;
+    static float waitBetweenLerps = 0.2f;
+    IEnumerator colorLerp(Color goal)
+    {
+        float timeElapsed = 0f;
+        Color startColor = Score.color;
+        while(timeElapsed < lerpDuration)
+        {
+            Score.color = Color.Lerp(startColor, goal, timeElapsed / lerpDuration);
+            timeElapsed += Time.deltaTime;
+            yield return new WaitForSeconds(Time.deltaTime);
+        }
+        yield return new WaitForSeconds(waitBetweenLerps);
 
+        if (Score.color != Color.white) StartCoroutine(colorLerp(Color.white));
+
+    }
+
+    public void updateText(int type, int score) // 0 - loss, 1 - gain
+    {
+        Score.text = $"{score}/600";
+
+        if(type == 1) StartCoroutine(colorLerp(Color.green));
+        else StartCoroutine(colorLerp(Color.red));
+
+    }
     public void OnHoverEnter(GameObject self)
     {
 
@@ -25,18 +53,5 @@ public class UIController : MonoBehaviour
         anim.SetBool("Start", false);
 
         anim.SetBool("Exit", true);
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

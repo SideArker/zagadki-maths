@@ -7,19 +7,15 @@ public class GameController : MonoBehaviour
 
    [SerializeField] EquationCreator equationCreator;
 
-    public int currentLevel;
-    public int highestLevel;
+    public int score;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void regenLevel()
     {
-        
+        equationCreator.GenerateEquation();
     }
 
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        
+        regenLevel();  
     }
 }
