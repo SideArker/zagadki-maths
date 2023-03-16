@@ -7,32 +7,30 @@ public class UIController : MonoBehaviour
 
     [SerializeField] EquationCreator Equations;
     [SerializeField] TMP_Text Score;
+    [SerializeField] TMP_Text ScorePopUp;
 
-    static float lerpDuration = 0.2f;
-    static float waitBetweenLerps = 0.2f;
-    IEnumerator colorLerp(Color goal)
-    {
-        float timeElapsed = 0f;
-        Color startColor = Score.color;
-        while(timeElapsed < lerpDuration)
-        {
-            Score.color = Color.Lerp(startColor, goal, timeElapsed / lerpDuration);
-            timeElapsed += Time.deltaTime;
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        yield return new WaitForSeconds(waitBetweenLerps);
-
-        if (Score.color != Color.white) StartCoroutine(colorLerp(Color.white));
-
-    }
 
     public void updateText(int type, int score) // 0 - loss, 1 - gain
     {
         Score.text = $"{score}/600";
 
-        if(type == 1) StartCoroutine(colorLerp(Color.green));
-        else StartCoroutine(colorLerp(Color.red));
+        TMP_Text scoreShow = Instantiate(ScorePopUp, ScorePopUp.transform.parent);
 
+        if (type == 0)
+        {
+            scoreShow.text = "le!";
+            scoreShow.color = Color.red;
+
+            TMP_Text childText = scoreShow.transform.GetChild(0).GetComponent<TMP_Text>();
+            childText.text = "-50 Punktów";
+            childText.color = Color.red;
+
+        }
+
+        scoreShow.gameObject.SetActive(true);
+        scoreShow.GetComponent<Animator>().Play("ScorePopUp");
+
+        Destroy(scoreShow.gameObject, 2f);
     }
     public void OnHoverEnter(GameObject self)
     {

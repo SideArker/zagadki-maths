@@ -1,10 +1,9 @@
-using NaughtyAttributes;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class EquationCreator : MonoBehaviour
 {
@@ -38,6 +37,8 @@ public class EquationCreator : MonoBehaviour
     public float min_x = -8.9f;
     public float max_x = 8.9f;
 
+    bool debounce = false;
+
     void checkAction()
     {
         if (actionToFind == currentAction)
@@ -62,11 +63,21 @@ public class EquationCreator : MonoBehaviour
         }
     }
     
+    IEnumerator Debounce()
+    {
+        debounce = true;
+        yield return new WaitForSeconds(0.5f);
+        debounce = false;
+    }
+
+
     public void changeActionSphere(int action) // goes by indexes of equationChars
     {
+        if (debounce == true) return;
         currentAction = action;
         sphereToReplace.GetComponent<MeshRenderer>().material = actionMaterials[action];
         checkAction();
+        StartCoroutine(Debounce());
     }
 
     // Destroys previously made spheres
@@ -127,7 +138,7 @@ public class EquationCreator : MonoBehaviour
 
 
     // Generates the equation
-    [Button] public void GenerateEquation()
+    public void GenerateEquation()
     {
         int randomCharIfMinus = UnityEngine.Random.Range(0, equationChars.Count - 3);
         int randomCharIfPlus = UnityEngine.Random.Range(0, equationChars.Count - 1);
