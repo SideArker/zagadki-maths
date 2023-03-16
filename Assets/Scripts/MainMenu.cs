@@ -3,25 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NewBehaviourScript : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
 
+    [SerializeField] Animator sceneChangeAnim;
 
     // Start is called before the first frame update
 
     public void changeScene()
     {
-        SceneManager.LoadScene(1);
+        sceneChangeAnim.Play("SceneMove");
+
     }
 
-    void Start()
+    public void exit()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Application.Quit();
     }
 }

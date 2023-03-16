@@ -14,8 +14,4 @@ public class GameController : MonoBehaviour
         equationCreator.GenerateEquation();
     }
 
-    void Start()
-    {
-        regenLevel();  
-    }
 }

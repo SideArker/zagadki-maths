@@ -36,8 +36,7 @@ public class EquationCreator : MonoBehaviour
 
     public float min_x = -8.9f;
     public float max_x = 8.9f;
-
-    bool debounce = false;
+    bool debounce = true; // Disables button clicking
 
     void checkAction()
     {
@@ -50,7 +49,7 @@ public class EquationCreator : MonoBehaviour
         }
         else
         {
-            if(gc.score > 50) gc.score -= 50;
+            if(gc.score > 0) gc.score -= 50;
             Debug.Log("Wrong action");
             GenerateEquation();
             ui.updateText(0, gc.score);
@@ -63,12 +62,6 @@ public class EquationCreator : MonoBehaviour
         }
     }
     
-    IEnumerator Debounce()
-    {
-        debounce = true;
-        yield return new WaitForSeconds(0.5f);
-        debounce = false;
-    }
 
 
     public void changeActionSphere(int action) // goes by indexes of equationChars
@@ -76,8 +69,8 @@ public class EquationCreator : MonoBehaviour
         if (debounce == true) return;
         currentAction = action;
         sphereToReplace.GetComponent<MeshRenderer>().material = actionMaterials[action];
+        debounce = true;
         checkAction();
-        StartCoroutine(Debounce());
     }
 
     // Destroys previously made spheres
@@ -85,19 +78,33 @@ public class EquationCreator : MonoBehaviour
     {
         foreach(GameObject Sphere in Spheres)
         {
-            Destroy(Sphere);
+            Animator anim = Sphere.GetComponent<Animator>();
+            anim.Play("SphereShrink");
+            Destroy(Sphere, 1f);
         }
         Spheres.Clear();
         actionSpheres.Clear();
-
     }
 
+    IEnumerator ShowSpheres()
+    {
+        debounce = true;
+        foreach(GameObject sphere in Spheres)
+        {
+            sphere.SetActive(true);
+            yield return new WaitForSeconds(.5f);
+        }
+        debounce = false;
+    }
+
+
     // Create and assign materials to spheres
-     void CreateSpheres()
+     IEnumerator CreateSpheres()
     {
         // Destroy already made spheres
-        if(Spheres.Count != 0) DestroySpheres();
-
+        yield return new WaitForSeconds(0.3f);
+        if (Spheres.Count != 0) DestroySpheres();
+        yield return new WaitForSeconds(0.3f);
 
         for (int i = 0; i < charArray.Length; i++)
         {
@@ -134,6 +141,8 @@ public class EquationCreator : MonoBehaviour
         string action = charArray[Spheres.IndexOf(sphereToReplace)].ToString();
         
         actionToFind = equationChars.IndexOf(action);
+
+        StartCoroutine(ShowSpheres());
     }
 
 
@@ -185,6 +194,6 @@ public class EquationCreator : MonoBehaviour
 
             charArray = equation.ToCharArray();
         }
-        CreateSpheres();
+        StartCoroutine(CreateSpheres());
     }
 }

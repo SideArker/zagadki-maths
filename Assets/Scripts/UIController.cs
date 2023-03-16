@@ -8,7 +8,7 @@ public class UIController : MonoBehaviour
     [SerializeField] EquationCreator Equations;
     [SerializeField] TMP_Text Score;
     [SerializeField] TMP_Text ScorePopUp;
-
+    [SerializeField] Animator sceneChangeAnim;
 
     public void updateText(int type, int score) // 0 - loss, 1 - gain
     {
@@ -51,5 +51,10 @@ public class UIController : MonoBehaviour
         anim.SetBool("Start", false);
 
         anim.SetBool("Exit", true);
+    }
+
+    private void Start()
+    {
+        sceneChangeAnim.Play("SceneMoveBack");
     }
 }
